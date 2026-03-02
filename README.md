@@ -2,7 +2,6 @@
 
 ## 🌟 **Enterprise-Grade Multi-Agent AI System**
 
-A production-ready, real-time e-commerce analytics platform powered by multiple AI agents, advanced machine learning, and live data processing. Built for **Team 49** by **Sweeyam**.
 
 ### 🎯 **Project Overview**
 
@@ -201,24 +200,8 @@ docker-compose -f docker/docker-compose.prod.yml up -d
 - **Update Frequency**: 30-second real-time cycles
 - **Concurrent Users**: 1000+ supported
 
-## 🤝 **Team**
-
-**Team 49** - **Sweeyam**
-- Advanced AI/ML Implementation
-- Enterprise Software Architecture
-- Real-time Data Processing
-- Production-ready Development
 
 ## 📄 **License**
 
 This project is developed for educational and demonstration purposes.
 
-## 🔗 **Links**
-
-- **GitHub Repository**: https://github.com/sweeyamsrmap/sweeyam_team49
-- **Live Demo**: Available after deployment
-- **Documentation**: See `/docs` folder for detailed technical analysis
-
----
-
-**Built with ❤️ by Team 49 - Showcasing Enterprise-Grade Agentic AI Technology**# agentic-ai-
