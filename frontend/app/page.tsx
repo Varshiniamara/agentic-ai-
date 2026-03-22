@@ -1,7 +1,5 @@
-'use client';
-
-import SimpleDashboard from './simple-dashboard';
+import EnterpriseDashboard from './enterprise-dashboard';
 
 export default function Home() {
-  return <SimpleDashboard />;
+  return <EnterpriseDashboard />;
 }
