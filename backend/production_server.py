@@ -172,8 +172,8 @@ async def update_real_time_data():
                     demand_surge = 1.0
             
             # ML-DRIVEN VARIATIONS with realistic business logic
-            revenue_trend = np.sin(cycle_count * 0.1) * 0.05  # Cyclical patterns
-            seasonal_factor = 1.0 + np.sin(cycle_count * 0.05) * 0.03  # Seasonal trends
+            revenue_trend = float(np.sin(cycle_count * 0.1) * 0.05)  # Cyclical patterns
+            seasonal_factor = float(1.0 + np.sin(cycle_count * 0.05) * 0.03)  # Seasonal trends
             
             revenue_variation = (random.uniform(0.92, 1.08) * activity_multiplier * 
                                demand_surge * seasonal_factor * (1 + revenue_trend))
@@ -216,8 +216,8 @@ async def update_real_time_data():
             ]])
             
             scaled_data = scaler.transform(current_data)
-            anomaly_score = anomaly_detector.decision_function(scaled_data)[0]
-            is_anomaly = anomaly_detector.predict(scaled_data)[0] == -1
+            anomaly_score = float(anomaly_detector.decision_function(scaled_data)[0])
+            is_anomaly = bool(anomaly_detector.predict(scaled_data)[0] == -1)
             
             if is_anomaly:
                 logger.info(f"🤖 ML ANOMALY DETECTED: Score={anomaly_score:.3f}")
@@ -468,7 +468,7 @@ async def generate_intelligent_alerts(metrics: BusinessMetrics):
                     'severity': severity,
                     'type': 'revenue_change',
                     'timestamp': current_time.isoformat(),
-                    'action_required': abs(revenue_change) > 1000000,
+                    'action_required': bool(abs(revenue_change) > 1000000),
                     'metric_value': revenue_change,
                     'threshold': 500000
                 })
@@ -511,7 +511,7 @@ async def generate_intelligent_alerts(metrics: BusinessMetrics):
                     'severity': 'medium',
                     'type': 'order_change',
                     'timestamp': current_time.isoformat(),
-                    'action_required': abs(order_change) > 3000,
+                    'action_required': bool(abs(order_change) > 3000),
                     'metric_value': order_change,
                     'threshold': 2000
                 })
@@ -723,7 +723,7 @@ async def generate_intelligent_decisions(metrics: BusinessMetrics):
                     "status": "urgent" if abs(revenue_change) > 1200000 else "pending",
                     "confidence_score": 0.93,
                     "financial_impact": abs(revenue_change) * 0.1,
-                    "requires_approval": abs(revenue_change) > 1000000,
+                    "requires_approval": bool(abs(revenue_change) > 1000000),
                     "reasoning": f"Significant revenue {change_type} of ${abs(revenue_change):,.0f} requires investigation",
                     "recommended_scenario": f"Analyze {change_type} causes, adjust strategies accordingly",
                     "created_at": current_time.isoformat(),
