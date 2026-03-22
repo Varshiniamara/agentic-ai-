@@ -109,6 +109,4 @@ npm install
 npm run dev
 ```
 
----
 
-*Winner of the Vibe Coding Hackathon — Built with passion for the future of Autonomous Intelligence.*
