@@ -23,9 +23,16 @@ interface Decision {
   riskLevel: 'low' | 'medium' | 'high';
 }
 
-export default function DecisionPanel() {
-  const [decisions, setDecisions] = useState<Decision[]>([]);
+interface DecisionPanelProps {
+  decisions?: Decision[];
+  onApprove?: (id: number, approved: boolean, comments?: string) => void;
+}
+
+export default function DecisionPanel({ decisions: propDecisions, onApprove }: DecisionPanelProps) {
+  const [internalDecisions, setInternalDecisions] = useState<Decision[]>([]);
   const [loading, setLoading] = useState(true);
+
+  const decisions = propDecisions || internalDecisions;
 
   useEffect(() => {
     fetchDecisions();
@@ -34,11 +41,15 @@ export default function DecisionPanel() {
   }, []);
 
   const fetchDecisions = async () => {
+    if (propDecisions) {
+      setLoading(false);
+      return;
+    }
     try {
       const response = await fetch('http://localhost:8001/api/v1/decisions');
       if (response.ok) {
         const data = await response.json();
-        setDecisions(data.decisions || []);
+        setInternalDecisions(data.decisions || []);
       } else {
         // Mock decisions for demo
         setDecisions([

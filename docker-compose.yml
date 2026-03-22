@@ -1,0 +1,54 @@
+version: '3.8'
+
+services:
+  # 1. The Database (Stores your business data)
+  postgres:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_DB: agentic_ai
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U user -d agentic_ai"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # 2. The Cache (Makes your AI fast)
+  redis:
+    image: redis:7-alpine
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # 3. The Brain (Your AI & Agents)
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    environment:
+      DATABASE_URL: postgresql://user:password@postgres:5432/agentic_ai
+      REDIS_URL: redis://redis:6379
+      OPENAI_API_KEY: ${OPENAI_API_KEY}
+      ENVIRONMENT: production
+    ports:
+      - "8000:8000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+  # 4. The Website (What customers see)
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    environment:
+      NEXT_PUBLIC_API_URL: /api/v1
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend

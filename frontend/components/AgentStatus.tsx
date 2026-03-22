@@ -18,9 +18,15 @@ interface Agent {
   tasksCompleted: number;
 }
 
-export default function AgentStatus() {
-  const [agents, setAgents] = useState<Agent[]>([]);
+interface AgentStatusProps {
+  agents?: Agent[];
+}
+
+export default function AgentStatus({ agents: propAgents }: AgentStatusProps) {
+  const [internalAgents, setInternalAgents] = useState<Agent[]>([]);
   const [loading, setLoading] = useState(true);
+
+  const agents = propAgents || internalAgents;
 
   useEffect(() => {
     fetchAgentStatus();
@@ -29,11 +35,15 @@ export default function AgentStatus() {
   }, []);
 
   const fetchAgentStatus = async () => {
+    if (propAgents) {
+      setLoading(false);
+      return;
+    }
     try {
       const response = await fetch('http://localhost:8001/api/v1/agents/status');
       if (response.ok) {
         const data = await response.json();
-        setAgents(data.agents || []);
+        setInternalAgents(data.agents || []);
       } else {
         // Mock agent data for demo
         setAgents([

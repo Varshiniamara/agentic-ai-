@@ -1,0 +1,44 @@
+services:
+  # The Database
+  - type: database
+    name: agentic-database
+    databaseName: agentic_ai
+    user: user
+
+  # Redis Cache
+  - type: redis
+    name: agentic-redis
+    ipAllowList: [] # Only allow internal connections
+
+  # The Backend (Python)
+  - type: web
+    name: agentic-backend
+    env: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: python -m uvicorn main:app --host 0.0.0.0 --port 10000
+    rootDir: backend
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: agentic-database
+          property: connectionString
+      - key: REDIS_URL
+        fromRedis:
+          name: agentic-redis
+          property: connectionString
+      - key: OPENAI_API_KEY
+        sync: false # You will enter this in the dashboard
+
+  # The Frontend (Next.js)
+  - type: web
+    name: agentic-frontend
+    env: node
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    rootDir: frontend
+    envVars:
+      - key: NEXT_PUBLIC_API_URL
+        fromService:
+          type: web
+          name: agentic-backend
+          property: host

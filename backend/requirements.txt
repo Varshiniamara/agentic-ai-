@@ -30,7 +30,7 @@ statsmodels==0.14.0
 
 # Advanced ML Libraries
 xgboost==2.0.3
-shap==0.44.0
+# shap==0.44.0
 
 # Development dependencies
 pytest==7.4.3

@@ -105,6 +105,7 @@ ehthumbs.db
 Thumbs.db
 
 # Python specific
+venv/
 *.egg-info/
 .pytest_cache/
 .coverage

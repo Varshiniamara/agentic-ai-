@@ -18,9 +18,15 @@ interface Alert {
   status: 'active' | 'acknowledged' | 'resolved';
 }
 
-export default function AlertPanel() {
-  const [alerts, setAlerts] = useState<Alert[]>([]);
+interface AlertPanelProps {
+  alerts?: Alert[];
+}
+
+export default function AlertPanel({ alerts: propAlerts }: AlertPanelProps) {
+  const [internalAlerts, setInternalAlerts] = useState<Alert[]>([]);
   const [loading, setLoading] = useState(true);
+
+  const alerts = propAlerts || internalAlerts;
 
   useEffect(() => {
     fetchAlerts();
@@ -29,14 +35,18 @@ export default function AlertPanel() {
   }, []);
 
   const fetchAlerts = async () => {
+    if (propAlerts) {
+      setLoading(false);
+      return;
+    }
     try {
       const response = await fetch('http://localhost:8001/api/v1/alerts');
       if (response.ok) {
         const data = await response.json();
-        setAlerts(data.alerts || []);
+        setInternalAlerts(data.alerts || []);
       } else {
         // Mock alerts for demo when API is not available
-        setAlerts([
+        setInternalAlerts([
           {
             id: '1',
             type: 'critical',
@@ -75,7 +85,7 @@ export default function AlertPanel() {
     } catch (error) {
       console.error('Error fetching alerts:', error);
       // Mock alerts for demo
-      setAlerts([
+      setInternalAlerts([
         {
           id: '1',
           type: 'critical',
