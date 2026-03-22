@@ -100,7 +100,7 @@ export default function EnterpriseDashboard() {
 
   const fetchData = async () => {
     try {
-      const response = await fetch('http://localhost:8001/api/v1/dashboard');
+      const response = await fetch('/api/v1/dashboard');
       if (response.ok) {
         const dashboardData = await response.json();
         setData(dashboardData);
