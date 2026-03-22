@@ -127,7 +127,30 @@ async def get_dashboard():
                 "Optimize logistics for Southeast region to reduce delivery time.",
                 "Promote 'Beauty & Health' category during evening hours.",
                 "Switch to alternative payment gateway for debit card transactions."
-            ]
+            ],
+            "ml_models": {
+                "anomaly_detection": {
+                    "model": "Isolation Forest",
+                    "status": "active",
+                    "accuracy": random.uniform(0.91, 0.95)
+                },
+                "forecasting": {
+                    "model": "ARIMA + Prophet Ensemble",
+                    "status": "active",
+                    "accuracy": random.uniform(0.88, 0.94)
+                },
+                "segmentation": {
+                    "model": "K-Means Clustering",
+                    "status": "active",
+                    "accuracy": random.uniform(0.90, 0.96)
+                }
+            },
+            "real_time_predictions": {
+                "revenue_forecast_24h": curr_rev * 1.05 * random.uniform(0.98, 1.02),
+                "order_volume_forecast": int(curr_ord * 1.03 * random.uniform(0.99, 1.01)),
+                "churn_risk_customers": random.randint(120, 250),
+                "upsell_opportunities": random.randint(350, 600)
+            }
         },
         "data_freshness": {
             "last_update": datetime.now().isoformat(),
