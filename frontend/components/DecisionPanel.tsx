@@ -23,7 +23,7 @@ interface Decision {
   riskLevel: 'low' | 'medium' | 'high';
 }
 
-export default function DecisionPanel() {
+export default function DecisionPanel(props: any) {
   const [decisions, setDecisions] = useState<Decision[]>([]);
   const [loading, setLoading] = useState(true);
 
