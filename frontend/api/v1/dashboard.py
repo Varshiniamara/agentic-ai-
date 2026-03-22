@@ -105,6 +105,13 @@ async def get_dashboard():
             "forecasts": [{"label": "Revenue Forecast (24h)", "value": current_revenue * 1.05}],
             "anomalies": []
         },
+        "top_categories": [
+            {"name": cat['name'], "revenue": cat['revenue'] * noise, "rank": cat['rank']}
+            for cat in summary.get('top_categories', [])
+        ],
+        "geographic_distribution": summary.get('geographic_distribution', {}),
+        "payment_methods": summary.get('payment_methods', {}),
+        "delivery_performance": summary.get('delivery_performance', {}),
         "system_health": {"status": "operational", "uptime": "99.9%"}
     }
     
