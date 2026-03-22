@@ -829,7 +829,9 @@ async def get_dashboard_data():
                 "source": "Brazilian E-commerce Dataset",
                 "records_processed": metrics.total_orders,
                 "data_quality": "high"
-            }
+            },
+            "ml_performance": real_time_cache.get('ml_performance'),
+            "ml_insights": real_time_cache.get('ml_insights')
         }
         
         return dashboard_data
