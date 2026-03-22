@@ -18,8 +18,8 @@ interface Alert {
   status: 'active' | 'acknowledged' | 'resolved';
 }
 
-export default function AlertPanel() {
-  const [alerts, setAlerts] = useState<Alert[]>([]);
+export default function AlertPanel({ alerts: initialAlerts }: { alerts?: Alert[] }) {
+    const [alerts, setAlerts] = useState<Alert[]>(initialAlerts || []);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
